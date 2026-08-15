@@ -1,0 +1,44 @@
+{
+  "name": "phumi-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:node": "tsx watch --env-file=.env src/index.ts",
+    "build": "npm run prisma:generate && npm run build:worker && npm run build:node",
+    "build:worker": "wrangler deploy --dry-run --outdir dist-worker",
+    "build:node": "tsup src/index.ts --format esm --platform node --target node22 --out-dir dist --clean --sourcemap",
+    "start": "node --env-file-if-exists=.env dist/index.js",
+    "deploy": "npm run prisma:generate && wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "validate": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.11",
+    "@hono/swagger-ui": "^0.5.2",
+    "@hono/zod-openapi": "^1.1.5",
+    "@prisma/adapter-neon": "^6.19.3",
+    "@prisma/client": "^6.19.3",
+    "hono": "^4.12.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260722.1",
+    "@types/node": "^22.10.5",
+    "prisma": "^6.19.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.113.0"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
+  }
+}
