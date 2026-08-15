@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "phumi-core",
+  "account_id": "0e3c5f2ac43af6e41deff7141d763bbd",
   "main": "src/worker.ts",
   "compatibility_date": "2026-07-22",
   "compatibility_flags": ["nodejs_compat"],
@@ -10,6 +11,12 @@
     "NODE_ENV": "production",
     "PUBLIC_BASE_URL": "https://core-api.phu-mi.com"
   },
+  "routes": [
+    {
+      "pattern": "core-api.phu-mi.com",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
