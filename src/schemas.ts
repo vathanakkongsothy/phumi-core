@@ -19,6 +19,7 @@ export const upsertUserSchema = z.object({
   phone: z.string().trim().min(5).max(30).optional(), locale: z.string().trim().min(2).max(12).default("km"), metadata: metadataSchema.optional(),
 }).strict().openapi("UpsertUser");
 export const resolveUserSchema = z.object({ externalId: idSchema });
+export const resolveTenantSchema = z.object({ externalId: idSchema });
 export const userResponseSchema = z.object({ user: userSchema });
 export const userIdParamSchema = z.object({ userId: z.string().startsWith("usr_").openapi({ param: { name: "userId", in: "path" } }) });
 

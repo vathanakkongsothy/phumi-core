@@ -17,8 +17,8 @@ describe("OpenAPI contract", () => {
     const document = await response.json() as { paths: Record<string, unknown> };
     expect(response.status).toBe(200);
     expect(Object.keys(document.paths)).toEqual(expect.arrayContaining([
-      "/health", "/v1/users", "/v1/users/resolve", "/v1/users/{userId}", "/v1/tenants", "/v1/tenants/{tenantId}",
-      "/v1/tenants/{tenantId}/members/{userId}", "/v1/tenants/{tenantId}/subscription",
+      "/health", "/v1/users", "/v1/users/resolve", "/v1/users/{userId}", "/v1/tenants", "/v1/tenants/resolve",
+      "/v1/tenants/{tenantId}", "/v1/tenants/{tenantId}/members/{userId}", "/v1/tenants/{tenantId}/subscription",
     ]));
   });
 });

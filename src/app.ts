@@ -5,7 +5,7 @@ import type { PrismaClient } from "@prisma/client";
 import type { CoreConfig } from "./config.js";
 import { CoreError, errorResponse } from "./errors.js";
 import { CoreService, serializeMembership, serializeSubscription, serializeTenant, serializeUser } from "./core-service.js";
-import { createTenantRoute, getTenantRoute, getUserRoute, healthRoute, resolveUserRoute, updateSubscriptionRoute, upsertMembershipRoute, upsertUserRoute } from "./routes.js";
+import { createTenantRoute, getTenantRoute, getUserRoute, healthRoute, resolveTenantRoute, resolveUserRoute, updateSubscriptionRoute, upsertMembershipRoute, upsertUserRoute } from "./routes.js";
 import { membershipResponseSchema, subscriptionResponseSchema, tenantResponseSchema, userResponseSchema } from "./schemas.js";
 import { authenticateAppRequest } from "./security.js";
 
@@ -39,7 +39,12 @@ export function createApp(prisma: PrismaClient, config: CoreConfig) {
   app.openapi(upsertUserRoute, async (context) => context.json(userResponseSchema.parse({ user: serializeUser(await core.upsertUser(context.get("appId"), context.req.valid("json"))) }), 200));
   app.openapi(resolveUserRoute, async (context) => context.json(userResponseSchema.parse({ user: serializeUser(await core.resolveUser(context.get("appId"), context.req.valid("query").externalId)) }), 200));
   app.openapi(getUserRoute, async (context) => context.json(userResponseSchema.parse({ user: serializeUser(await core.findUserForApp(context.get("appId"), context.req.valid("param").userId)) }), 200));
-  app.openapi(createTenantRoute, async (context) => context.json(tenantResponseSchema.parse({ tenant: serializeTenant(await core.createTenant(context.get("appId"), context.req.valid("json"))) }), 201));
+  app.openapi(createTenantRoute, async (context) => {
+    const result = await core.createTenant(context.get("appId"), context.req.valid("json"));
+    const body = tenantResponseSchema.parse({ tenant: serializeTenant(result.tenant) });
+    return result.created ? context.json(body, 201) : context.json(body, 200);
+  });
+  app.openapi(resolveTenantRoute, async (context) => context.json(tenantResponseSchema.parse({ tenant: serializeTenant(await core.resolveTenant(context.get("appId"), context.req.valid("query").externalId)) }), 200));
   app.openapi(getTenantRoute, async (context) => context.json(tenantResponseSchema.parse({ tenant: serializeTenant(await core.findTenant(context.get("appId"), context.req.valid("param").tenantId)) }), 200));
   app.openapi(upsertMembershipRoute, async (context) => { const params = context.req.valid("param"); return context.json(membershipResponseSchema.parse({ membership: serializeMembership(await core.upsertMembership(context.get("appId"), params.tenantId, params.userId, context.req.valid("json"))) }), 200); });
   app.openapi(updateSubscriptionRoute, async (context) => context.json(subscriptionResponseSchema.parse({ subscription: serializeSubscription(await core.updateSubscription(context.get("appId"), context.req.valid("param").tenantId, context.req.valid("json"))) }), 200));
