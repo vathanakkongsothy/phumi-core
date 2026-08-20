@@ -44,12 +44,12 @@ Canonical signing input:
 
 ```text
 HTTP_METHOD
-/exact/path
+/exact/path?exact_query_if_present
 unix_timestamp
 lowercase_hex_sha256_of_exact_raw_body
 ```
 
-Use the app's `requestSecret` from `CORE_APPS_JSON`. Query parameters are not included in the signed path. Requests outside the five-minute clock-skew window are rejected.
+Use the app's `requestSecret` from `CORE_APPS_JSON`. If the request has a query string, append the exact `?` and query to the path. Do not omit, sort, or decode parameters. Requests without a query string sign the path only. Requests outside the five-minute clock-skew window are rejected.
 
 ## API surface
 
@@ -59,9 +59,10 @@ Use the app's `requestSecret` from `CORE_APPS_JSON`. Query parameters are not in
 | `PUT` | `/v1/users` | Idempotently create or update an app identity |
 | `GET` | `/v1/users/resolve?externalId=...` | Resolve an app external ID |
 | `GET` | `/v1/users/{userId}` | Read a user linked to the calling app |
-| `POST` | `/v1/tenants` | Create a tenant and owner membership |
+| `POST` | `/v1/tenants` | Create a tenant, or return the existing one for the same external ID |
+| `GET` | `/v1/tenants/resolve?externalId=...` | Resolve an app tenant external ID |
 | `GET` | `/v1/tenants/{tenantId}` | Read tenant, members, and subscription |
-| `PUT` | `/v1/tenants/{tenantId}/members/{userId}` | Add or update membership |
+| `PUT` | `/v1/tenants/{tenantId}/members/{userId}` | Add or update membership; the last active owner cannot be removed |
 | `PUT` | `/v1/tenants/{tenantId}/subscription` | Update reconciled subscription state |
 
 The OpenAPI document at `/openapi.json` is the full request and response contract.
