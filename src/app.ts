@@ -11,11 +11,11 @@ import { authenticateAppRequest } from "./security.js";
 
 type Variables = { requestId: string; rawBody: string; appId: string };
 
-export function createApp(prisma: PrismaClient, config: CoreConfig) {
+export function createApp(prisma: PrismaClient | Pick<CoreService, keyof CoreService>, config: CoreConfig) {
   const app = new OpenAPIHono<{ Variables: Variables }>({
     defaultHook: (result) => { if (!result.success) throw new CoreError("VALIDATION_ERROR", "Request validation failed", 400, result.error.flatten()); },
   });
-  const core = new CoreService(prisma);
+  const core = "upsertUser" in prisma ? prisma : new CoreService(prisma);
 
   app.use("*", async (context, next) => {
     context.set("requestId", context.req.header("x-request-id")?.slice(0, 128) || randomUUID());
@@ -33,7 +33,7 @@ export function createApp(prisma: PrismaClient, config: CoreConfig) {
   });
 
   app.openapi(healthRoute, async (context) => {
-    try { await prisma.user.findFirst({ select: { id: true } }); return context.json({ status: "ok" as const, service: "phumi-core" as const }, 200); }
+    try { await core.health(); return context.json({ status: "ok" as const, service: "phumi-core" as const }, 200); }
     catch { throw new CoreError("SERVICE_UNAVAILABLE", "Database is unavailable or core migrations are missing", 503); }
   });
   app.openapi(upsertUserRoute, async (context) => context.json(userResponseSchema.parse({ user: serializeUser(await core.upsertUser(context.get("appId"), context.req.valid("json"))) }), 200));

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "d1/**"
+      - "src/**"
+      - "test/**"
       - "prisma/schema.prisma"
       - "package.json"
       - "package-lock.json"
@@ -32,3 +34,8 @@ jobs:
       - run: npm run db:d1:build
       - run: npm run db:d1:typecheck
       - run: npm run db:d1:smoke
+
+      - run: npm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/ci
+      - run: npm run db:d1:runtime:smoke

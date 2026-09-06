@@ -38,6 +38,8 @@ export function serializeTenant(tenant: { memberships: Array<Parameters<typeof s
 export class CoreService {
   constructor(private readonly prisma: PrismaClient) {}
 
+  async health() { await this.prisma.user.findFirst({ select: { id: true } }); }
+
   async upsertUser(appId: string, input: UpsertUserInput) {
     return this.prisma.$transaction(async (transaction) => {
       const identity = await transaction.externalIdentity.findUnique({ where: { appId_externalId: { appId, externalId: input.externalId } }, include: { user: true } });

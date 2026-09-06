@@ -25,7 +25,8 @@
     "db:d1:preview": "wrangler dev --config d1/wrangler.jsonc",
     "db:d1:build": "wrangler deploy --config d1/wrangler.jsonc --dry-run --outdir ../.d1-build",
     "db:d1:smoke": "node d1/smoke.mjs",
-    "db:d1:typecheck": "tsc --noEmit --target ES2022 --module ESNext --moduleResolution bundler --resolveJsonModule --skipLibCheck d1/worker.ts"
+    "db:d1:typecheck": "tsc --noEmit --target ES2022 --module ESNext --moduleResolution bundler --resolveJsonModule --skipLibCheck d1/worker.ts",
+    "db:d1:runtime:smoke": "node d1/runtime-smoke.mjs"
   },
   "dependencies": {
     "@hono/node-server": "^2.0.11",
