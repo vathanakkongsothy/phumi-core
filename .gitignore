@@ -10,3 +10,10 @@ dist-worker/
 coverage/
 *.log
 .DS_Store
+
+# Isolated D1 migration tooling
+/.generated/d1/
+/.d1-build/
+/d1/.wrangler/
+/d1/*.sqlite*
+/d1/.d1-build/
