@@ -1,0 +1,17 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "phumi-core-d1-preflight",
+  "main": "worker.ts",
+  "account_id": "0e3c5f2ac43af6e41deff7141d763bbd",
+  "compatibility_date": "2026-07-23",
+  "workers_dev": false,
+  "preview_urls": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "phumi-core-d1",
+      "database_id": "f16074f9-d81a-4e22-b2d7-141e08f5b4e0",
+      "migrations_dir": "migrations",
+    },
+  ],
+}

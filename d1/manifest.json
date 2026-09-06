@@ -1,0 +1,204 @@
+{
+  "source": "phumi_core",
+  "target": "phumi-core-d1",
+  "representations": {
+    "dates": "UTC ISO 8601 with +00:00 suffix",
+    "decimal": "integer multiplied by 10^scale",
+    "arrays": "JSON text"
+  },
+  "tables": [
+    {
+      "name": "Tenant",
+      "columns": [
+        {
+          "name": "id",
+          "sourceType": "text"
+        },
+        {
+          "name": "appId",
+          "sourceType": "text"
+        },
+        {
+          "name": "externalId",
+          "sourceType": "text"
+        },
+        {
+          "name": "slug",
+          "sourceType": "text"
+        },
+        {
+          "name": "name",
+          "sourceType": "text"
+        },
+        {
+          "name": "status",
+          "sourceType": "TenantStatus"
+        },
+        {
+          "name": "metadata",
+          "sourceType": "jsonb"
+        },
+        {
+          "name": "createdAt",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "updatedAt",
+          "sourceType": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "columns": [
+        {
+          "name": "id",
+          "sourceType": "text"
+        },
+        {
+          "name": "displayName",
+          "sourceType": "text"
+        },
+        {
+          "name": "email",
+          "sourceType": "text"
+        },
+        {
+          "name": "phone",
+          "sourceType": "text"
+        },
+        {
+          "name": "locale",
+          "sourceType": "text"
+        },
+        {
+          "name": "status",
+          "sourceType": "UserStatus"
+        },
+        {
+          "name": "metadata",
+          "sourceType": "jsonb"
+        },
+        {
+          "name": "createdAt",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "updatedAt",
+          "sourceType": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "ExternalIdentity",
+      "columns": [
+        {
+          "name": "id",
+          "sourceType": "text"
+        },
+        {
+          "name": "appId",
+          "sourceType": "text"
+        },
+        {
+          "name": "externalId",
+          "sourceType": "text"
+        },
+        {
+          "name": "userId",
+          "sourceType": "text"
+        },
+        {
+          "name": "createdAt",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "updatedAt",
+          "sourceType": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "Membership",
+      "columns": [
+        {
+          "name": "id",
+          "sourceType": "text"
+        },
+        {
+          "name": "tenantId",
+          "sourceType": "text"
+        },
+        {
+          "name": "userId",
+          "sourceType": "text"
+        },
+        {
+          "name": "role",
+          "sourceType": "MembershipRole"
+        },
+        {
+          "name": "status",
+          "sourceType": "MembershipStatus"
+        },
+        {
+          "name": "createdAt",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "updatedAt",
+          "sourceType": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "TenantSubscription",
+      "columns": [
+        {
+          "name": "id",
+          "sourceType": "text"
+        },
+        {
+          "name": "tenantId",
+          "sourceType": "text"
+        },
+        {
+          "name": "planKey",
+          "sourceType": "text"
+        },
+        {
+          "name": "status",
+          "sourceType": "SubscriptionStatus"
+        },
+        {
+          "name": "currentPeriodStart",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "currentPeriodEnd",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "gatewayPaymentId",
+          "sourceType": "text"
+        },
+        {
+          "name": "gatewayReferenceId",
+          "sourceType": "text"
+        },
+        {
+          "name": "cancelAtPeriodEnd",
+          "sourceType": "bool"
+        },
+        {
+          "name": "createdAt",
+          "sourceType": "timestamp"
+        },
+        {
+          "name": "updatedAt",
+          "sourceType": "timestamp"
+        }
+      ]
+    }
+  ]
+}

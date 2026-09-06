@@ -4,12 +4,15 @@
   "account_id": "0e3c5f2ac43af6e41deff7141d763bbd",
   "main": "src/worker.ts",
   "compatibility_date": "2026-07-22",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "workers_dev": true,
   "preview_urls": true,
   "vars": {
     "NODE_ENV": "production",
-    "PUBLIC_BASE_URL": "https://core-api.phu-mi.com"
+    "PUBLIC_BASE_URL": "https://core-api.phu-mi.com",
+    "DATABASE_BACKEND": "d1"
   },
   "routes": [
     {
@@ -20,7 +23,22 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
-    "logs": { "enabled": true, "head_sampling_rate": 1, "invocation_logs": true },
-    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
-  }
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.01
+    }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "phumi-core-d1-live-20260906",
+      "database_id": "7570e3d3-65d4-4829-ba51-37f594f3a665",
+      "migrations_dir": "d1/migrations"
+    }
+  ]
 }

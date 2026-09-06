@@ -1,0 +1,41 @@
+name: D1 migration validation
+
+on:
+  pull_request:
+    paths:
+      - "d1/**"
+      - "src/**"
+      - "test/**"
+      - "prisma/schema.prisma"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/d1-migration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci --ignore-scripts
+      - run: npm run db:d1:sync-schema
+      - run: git diff --exit-code -- d1/schema.prisma d1/contract.json
+      - run: npm run db:d1:generate
+      - run: npm run db:d1:validate
+      - run: npm run db:d1:migrate:local
+      - run: npm run db:d1:build
+      - run: npm run db:d1:typecheck
+      - run: npm run db:d1:smoke
+
+      - run: npm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/ci
+      - run: npm run db:d1:runtime:smoke

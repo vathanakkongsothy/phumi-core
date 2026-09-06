@@ -15,7 +15,7 @@ const appSchema = z.object({
 const environmentSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().min(1).max(65_535).default(8790),
-  DATABASE_URL: z.string().min(1),
+  DATABASE_URL: z.string().default(""),
   PUBLIC_BASE_URL: safeBaseUrl,
   CORE_APPS_JSON: z.string().min(2),
 });
@@ -29,8 +29,10 @@ export type CoreConfig = {
   apps: Map<string, CoreAppConfig>;
 };
 
-export function loadConfig(environment: Record<string, string | undefined> = process.env): CoreConfig {
+export function loadConfig(environment: Record<string, string | undefined> = process.env, backend: "neon" | "d1" = "neon"): CoreConfig {
+  z.enum(["neon", "d1"]).parse(backend);
   const env = environmentSchema.parse(environment);
+  if (backend === "neon") z.string().min(1).parse(env.DATABASE_URL);
   const input = z.array(appSchema).min(1).parse(JSON.parse(env.CORE_APPS_JSON));
   const apps = new Map(input.map((app) => [app.id, app]));
   if (apps.size !== input.length) throw new Error("CORE_APPS_JSON contains duplicate app ids");

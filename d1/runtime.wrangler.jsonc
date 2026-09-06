@@ -1,0 +1,25 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "phumi-core-d1-runtime-test",
+  "main": "../src/worker.ts",
+  "compatibility_date": "2026-07-23",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {
+    "NODE_ENV": "test",
+    "DATABASE_BACKEND": "d1",
+    "PUBLIC_BASE_URL": "http://127.0.0.1:8791",
+    "CORE_APPS_JSON": "[{\"id\":\"test-app\",\"requestSecret\":\"d1-local-smoke-secret-32-characters\"}]"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "phumi-core-d1",
+      "database_id": "f16074f9-d81a-4e22-b2d7-141e08f5b4e0",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

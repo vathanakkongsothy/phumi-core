@@ -17,7 +17,16 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
-    "validate": "npm run typecheck && npm test && npm run build"
+    "validate": "npm run typecheck && npm test && npm run build",
+    "db:d1:sync-schema": "node d1/sync-schema.mjs",
+    "db:d1:generate": "prisma generate --config d1/prisma.config.ts",
+    "db:d1:validate": "prisma validate --config d1/prisma.config.ts && node d1/check-schema.mjs && node --test d1/check-values.mjs",
+    "db:d1:migrate:local": "wrangler d1 migrations apply DB --config d1/wrangler.jsonc --local",
+    "db:d1:preview": "wrangler dev --config d1/wrangler.jsonc",
+    "db:d1:build": "wrangler deploy --config d1/wrangler.jsonc --dry-run --outdir ../.d1-build",
+    "db:d1:smoke": "node d1/smoke.mjs",
+    "db:d1:typecheck": "tsc --noEmit --target ES2022 --module ESNext --moduleResolution bundler --resolveJsonModule --skipLibCheck d1/worker.ts",
+    "db:d1:runtime:smoke": "node d1/runtime-smoke.mjs"
   },
   "dependencies": {
     "@hono/node-server": "^2.0.11",

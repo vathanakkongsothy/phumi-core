@@ -1,0 +1,198 @@
+{
+  "tables": [
+    {
+      "name": "User",
+      "columns": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "displayName",
+          "type": "String"
+        },
+        {
+          "name": "email",
+          "type": "String"
+        },
+        {
+          "name": "phone",
+          "type": "String"
+        },
+        {
+          "name": "locale",
+          "type": "String"
+        },
+        {
+          "name": "status",
+          "type": "UserStatus"
+        },
+        {
+          "name": "metadata",
+          "type": "Json"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime"
+        }
+      ]
+    },
+    {
+      "name": "ExternalIdentity",
+      "columns": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "appId",
+          "type": "String"
+        },
+        {
+          "name": "externalId",
+          "type": "String"
+        },
+        {
+          "name": "userId",
+          "type": "String"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime"
+        }
+      ]
+    },
+    {
+      "name": "Tenant",
+      "columns": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "appId",
+          "type": "String"
+        },
+        {
+          "name": "externalId",
+          "type": "String"
+        },
+        {
+          "name": "slug",
+          "type": "String"
+        },
+        {
+          "name": "name",
+          "type": "String"
+        },
+        {
+          "name": "status",
+          "type": "TenantStatus"
+        },
+        {
+          "name": "metadata",
+          "type": "Json"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime"
+        }
+      ]
+    },
+    {
+      "name": "Membership",
+      "columns": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "tenantId",
+          "type": "String"
+        },
+        {
+          "name": "userId",
+          "type": "String"
+        },
+        {
+          "name": "role",
+          "type": "MembershipRole"
+        },
+        {
+          "name": "status",
+          "type": "MembershipStatus"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime"
+        }
+      ]
+    },
+    {
+      "name": "TenantSubscription",
+      "columns": [
+        {
+          "name": "id",
+          "type": "String"
+        },
+        {
+          "name": "tenantId",
+          "type": "String"
+        },
+        {
+          "name": "planKey",
+          "type": "String"
+        },
+        {
+          "name": "status",
+          "type": "SubscriptionStatus"
+        },
+        {
+          "name": "currentPeriodStart",
+          "type": "DateTime"
+        },
+        {
+          "name": "currentPeriodEnd",
+          "type": "DateTime"
+        },
+        {
+          "name": "gatewayPaymentId",
+          "type": "String"
+        },
+        {
+          "name": "gatewayReferenceId",
+          "type": "String"
+        },
+        {
+          "name": "cancelAtPeriodEnd",
+          "type": "Boolean"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime"
+        }
+      ]
+    }
+  ],
+  "numericScales": []
+}
